@@ -2,6 +2,8 @@
 #define MAX_SIZE 50
 /**
  * 顺序表：线性表的顺序存储
+ *
+ * @author stan
  */
 
 struct List {
@@ -275,13 +277,82 @@ void printList() {
     }
 }
 
+// 9. A的递增有序的顺序表，找出数值为x的元素，若找到，则将其与后继元素交换位置，若找不到，将其插入顺序表中
+void locateEle(int e) {
+    int data[10] = {2, 3, 4, 6, 7, 8, 9, 10, 13, 15};
+    List A = initList(data, 10);
+    int left = 0, right = A.length - 1;
+    int index = -1;
+    // 二分查找法
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        if (A.data[mid] == e) {
+            index = mid;
+            break;
+        } else if (A.data[mid] < e) {
+            // 往右区间搜索
+            left = mid + 1;
+        } else {
+            // 往左区间搜素
+            right = mid - 1;
+        }
+    }
+    // 若找到，则将其与后继元素交换位置
+    if (index != -1) {
+        // 最后一个元素无后继元素
+        if (index != A.length - 1) {
+            swap(A.data[index], A.data[index + 1]);
+        }
+    } else {
+        int i;
+        // 若找不到，将其插入顺序表中
+        for (i = A.length - 1; i > right; i--) {
+            // 右移元素
+            A.data[i + 1] = A.data[i];
+        }
+        A.data[i + 1] = e;
+        A.length++;
+    }
+    for (int i = 0; i < A.length; i++) {
+        printf("%d ", A.data[i]);
+    }
+}
+
+
+// 11
+int exam11(int A[], int B[], int n) {
+    // 依次为A、B的首位数与末位数下标
+    int al = 0, ar = n - 1, bl = 0, br = n - 1;
+    while (al != ar || bl != br) {
+        int mid1 = (ar + al) / 2;
+        int mid2 = (br + bl) / 2;
+        int a = A[mid1];
+        int b = B[mid2];
+        // 下面讨论三种情况
+        if (a == b) {
+            return a;
+        } else if (a < b) {
+            // 长度为奇数时，下标+1
+            if ((ar - al) % 2 != 0) {
+                al = mid1 + 1;
+            } else {
+                al = mid1;
+            }
+            br = mid2;
+        } else {
+            ar = mid1;
+            // 长度为奇数时，下标-1
+            if ((br - bl) % 2 != 0) {
+                br = mid2 + 1;
+            } else {
+                br = mid2;
+            }
+        }
+    }
+    return A[al] < B[bl] ? A[al] : B[bl];
+}
+
 int main() {
-    insert(1, 3);
-    insert(2, 3);
-    insert(3, 6);
-    insert(4, 6);
-    insert(5, 6);
-    insert(6, 10);
     /*int e;
     del(2, e);
     printf("%d\n", e);
@@ -289,7 +360,10 @@ int main() {
     // printList();
     // delRange2(6, 9);
     // removeDuplicate();
-    swapLinearList();
+    // locateEle(1);
+    int A[] = {1, 2, 4};
+    int B[] = {1, 3, 9};
+    printf("%d", exam11(A, B, 3));
 //    printList();
     //printf("min = %d", delMin());
     return 0;

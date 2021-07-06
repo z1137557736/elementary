@@ -53,7 +53,7 @@ double P(int n, double x) {
 
 int main() {
     char C[] ={'{', '(', '[', ']', '[', ']', ')', '}'};
-    // printf("%d", work1(C));
+    // printf("%d", work(C));
     printf("%lf", P(3, 1));
     return 0;
 }

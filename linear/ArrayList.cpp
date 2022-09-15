@@ -178,7 +178,6 @@ bool removeDuplicate() {
     // 更新数组长度
     sqList.length = k;
 }
-
 // 将两个有序顺序表合并为一个新的有序顺序表
 void merge() {
     sqList2.data[0] = 1;

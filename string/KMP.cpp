@@ -28,6 +28,11 @@ void getNext(string s, int next[]) {
         // 记录子串S[0, i]的最长相等前后缀的前缀的最后一个元素的下标
         next[i] = j;
     }
+    printf("next: ");
+    for (int i = 0; i < s.length(); i++) {
+        printf("%d\t", next[i]);
+    }
+    printf("\n");
 }
 
 // 优化后的next，记为nextval
@@ -53,6 +58,11 @@ void getNextVal(string s, int next[]) {
         }
 
     }
+    printf("优化后的next: ");
+    for (int i = 0; i < s.length(); i++) {
+        printf("%d\t", next[i]);
+    }
+    printf("\n");
 }
 
 /**
@@ -91,7 +101,12 @@ void getNext2(string s, int next[]) {
     int i, j;
     next[0] = -1;
     i = 0; j = -1;
+    printf("基于公共最大元素长度的next数组: ");
     while (i < s.length()) {
+        // abaabd
+        // i=1, j=0 next[] = {-1, 0}
+        // i=1, j=-1 next[] = {-1, 0}
+        // i=2, j=0 next[] = {-1, 0, 0}
         if (j == -1 || s[i] == s[j]) {
             ++i;
             ++j;
@@ -99,7 +114,12 @@ void getNext2(string s, int next[]) {
         } else{
             j = next[j];
         }
+        for (int i = 0; i < s.length(); i++) {
+            printf("%d\t", next[i]);
+        }
+        printf("\n");
     }
+
 }
 
 bool KMP2(string text, string pattern) {
@@ -120,7 +140,7 @@ bool KMP2(string text, string pattern) {
 }
 
 int main() {
-    printf("%d\n", KMP("abababa", "ababab"));
-    printf("%d\n", KMP2("abababa", "abcac"));
+    printf("%d\n", KMP("abababa", "abcabd"));
+    printf("%d\n", KMP2("abababa", "abcabd"));
     return 1;
 }

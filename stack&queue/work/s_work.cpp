@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <bits/stdc++.h>
 
 // 链栈
 struct LinkedList {

@@ -103,8 +103,8 @@ void visit(Node *node) {
 void preOrder(Node *node) {
     stack<Node*> s;
     Node *p = node;
-    while (p != NULL || !s.empty()) {
-        if (p != NULL) {
+    while (p || !s.empty()) {
+        if (p) {
             visit(p);
             s.push(p);
             p = p -> left;
@@ -120,8 +120,8 @@ void preOrder(Node *node) {
 void inOrder(Node *node) {
     stack<Node*> s;
     Node *p = node;
-    while (p != NULL || !s.empty()) {
-        if (p != NULL) {
+    while (p || !s.empty()) {
+        if (p) {
             s.push(p);
             p = p -> left;
         } else {
@@ -147,19 +147,20 @@ void postOrder(Node *node) {
     stack<Node*> s;
     Node *p = node;
     Node *pre = NULL;
-    while (p != NULL || !s.empty()) {
-        if (p != NULL) {
+    while (p || !s.empty()) {
+        if (p) {
             s.push(p);
-            p = p -> left;
+            p = p -> left;  // 依次遍历左子树
         } else {
             p = s.top();
+            // 若p的右孩子为空 或 p的右孩子等于上一次被访问的结点
             if (p -> right == NULL || p -> right == pre) {
-                visit(p);
-                pre = p;
-                s.pop();
+                visit(p);   // 访问该结点
+                pre = p;    // 将当前结点记录为pre
+                s.pop();    // 当前结点出栈
                 p = NULL;
             } else {
-                p = p -> right;
+                p = p -> right; // 依次遍历右子树
             }
         }
     }

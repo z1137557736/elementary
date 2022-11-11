@@ -9,7 +9,7 @@ struct ThreadNode {
     int rtag;   // 0 右孩子 1 后继
 };
 
-// ABC##D##EF###
+// ABC##D##EF### 先序的方式创建二叉树
 void createNode(ThreadNode *&node) {
     char c;
     scanf("%c", &c);
@@ -27,7 +27,7 @@ void createNode(ThreadNode *&node) {
 }
 
 /**
- * 递归实现将二叉树线索化
+ * 递归实现将二叉树中序线索化
  *
  * 1. 先进行中序遍历，从中序序列上的角度上的，定义pre结点用于记录: 刚刚被访问的结点, 并反复执行第2、3、4步
  * 2. 若 p -> left == null, 则 p -> left = pre; p -> ltag = 1
@@ -39,13 +39,13 @@ void createNode(ThreadNode *&node) {
 void inThreading(ThreadNode *&p, ThreadNode *&pre) {
     if (p != NULL) {
         inThreading(p -> left, pre);
-        if (p -> left == NULL) {
-            p -> left = pre;
-            p -> ltag = 1;
+        if (p -> left == NULL) {    // 若当前结点的左孩子为空
+            p -> left = pre;    // 将其左孩子指向前驱结点
+            p -> ltag = 1;      // 并标记左孩子标记为前驱结点
         }
-        if (pre != NULL && pre -> right == NULL) {
-            pre -> right = p;
-            pre -> rtag = 1;
+        if (pre != NULL && pre -> right == NULL) {  // 若pre的右孩子为空
+            pre -> right = p;   // 将pre的右孩子指向当前结点
+            pre -> rtag = 1;    // 将当前右孩子标记为后继结点
         }
         pre = p;
         inThreading(p -> right, pre);
@@ -65,7 +65,7 @@ ThreadNode* firstNode(ThreadNode *node) {
  * 2. 若p -> rtag == 1, 直接返回 p -> right
  * 3. 若p -> rtag == 0, p的右孩子非其后继结点，并通过p的右孩子去寻找p的后继结点(在中序序列中，p的右孩子的最左孩子为p的后继结点)
  */
-// 如果为 node -> right 为线索，值
+// 如果为 node -> right 为线索值
 ThreadNode* findNext(ThreadNode *p) {
     // 后继结点为空，直接返回（此时已到达尾结点）
     if (p -> right == NULL) return p -> right;
@@ -106,13 +106,13 @@ int main() {
     // 创建二叉树
     createNode(node);
 
-    // 先序遍历
+    /*// 先序遍历
     preOrder(node);
     printf("\n");
 
     // 中序遍历二叉树
     inOrder(node);
-    printf("\n");
+    printf("\n");*/
 
     // 线索化二叉树
     inThreading(node, pre);

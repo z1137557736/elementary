@@ -49,13 +49,7 @@ void merge(int *arr, int first, int last) {
     if (first < last) {
         int mid = (first + last) / 2;
         int temp[last + 1];
-        //  5 0 4
-        //  2 0 1
-        //  1 0 1
-        //  0 0 -1
         merge(arr, first, mid);
-        //  5 5 9
-        //  2 2 4
         merge(arr, mid + 1, last);
         mergeSort(arr, temp, first, mid, mid + 1, last);
     }

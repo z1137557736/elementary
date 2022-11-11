@@ -22,7 +22,7 @@ void swap(int &a, int &b) {
 }
 
 /**
- * 核心: 相邻元素两两比较交换, 外层循环每一次都能确定一个最大值
+ * 核心: 相邻两个元素构成逆序，则进行交换, 外层循环每一次都能确定一个最大值
  */
 void bubbleSort(int *arr, int n) {
     for (int i = 0; i < n; i++) {
@@ -36,15 +36,26 @@ void bubbleSort(int *arr, int n) {
     }
 }
 
+void bubble_sort2(int *arr, int n) {
+    for (int i = 0; i < n; ++i) {
+        for (int j = 1; j < n - i; j++) {
+            if (arr[j - 1] > arr[j]) {  // 相邻元素，构成逆序，则交换元素
+                int tmp = arr[j - 1];
+                arr[j - 1] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+        printArr(arr, n);
+    }
+}
+
 int main() {
     const int n = 10;
-    int arr[n];
-    for (int i = 10; i > 0; i--) {
-        arr[10 - i] = i;
-    }
+    int arr[n] = {12, 2, 16, 30, 28, 10, 16, 20, 6, 18};
+
     printArr(arr, n);
 
-    bubbleSort(arr, n);
+    bubble_sort2(arr, n);
 
     return 0;
 }

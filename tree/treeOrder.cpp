@@ -52,16 +52,16 @@ void postOrder(Node *node) {
 void layerOrder(Node *node) {
     // 定义队列
     queue<Node*> q;
-    if (node != NULL) {
-        q.push(node);
-        while (!q.empty()) {
-            Node* top = q.front();
-            q.pop();
+    if (node != NULL) {    // 若根结点不为空
+        q.push(node);   // 将根结点入队
+        while (!q.empty()) {    // 若队列不为空
+            Node* top = q.front();  // 获取队首元素
+            q.pop();    // 队首元素出队并输出其值
             printf("%d", top -> data);
-            if (top -> left != NULL) {
+            if (top -> left) {  // 若其左孩子不为空，则入队
                 q.push(top -> left);
             }
-            if (top -> right != NULL) {
+            if (top -> right) { // 若其右孩子不为空，则入队
                 q.push(top -> right);
             }
         }

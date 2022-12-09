@@ -14,7 +14,7 @@ const int MAX_SIZE = 1000;
 /** 邻接矩阵版 遍历图 开始  **/
 
 // 定义邻接矩阵 1 为有边 0 为0无边
-VType G[MAX_SIZE][MAX_SIZE] = {};
+VType D[MAX_SIZE][MAX_SIZE] = {};
 // 顶点数
 int n;
 // 顶点是否入队

@@ -66,8 +66,8 @@ long long pre = LONG_LONG_MIN;
  * 1. 定义pre，并将其初始化为最小值LONG_LONG_MIN, 构造方法isValidBST();
  * 2. 进行递归遍历，反复执行以下步骤
  * 3. 若当前结点root为null, 则返回true
- * 4. 若当前结点不为空, 执行isValidBST(root -> left), 为false则直接返回false, 为true时继续往下执行
- * 5. 若pre >= root -> data, 直接返回false；并返回isValidBST(root -> right)
+ * 4. 若当前结点不为空, 执行isValidBST(root -> lchild), 为false则直接返回false, 为true时继续往下执行
+ * 5. 若pre >= root -> data, 直接返回false；并返回isValidBST(root -> rchild)
  */
 bool isValidBST(Node *root) {
     if (root != nullptr) {
@@ -139,7 +139,7 @@ void postOrder(Node *T) {
             }
             /*p = s.top(); s.pop();
             cout << p -> data;  // 中序输出
-            p = p -> right;*/
+            p = p -> rchild;*/
         }
     }
 }

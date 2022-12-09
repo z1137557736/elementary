@@ -11,7 +11,7 @@ typedef int VType;
  */
 
 /** 邻接矩阵版 遍历图 开始  **/
-VType G[MAX_SIZE][MAX_SIZE];
+VType D[MAX_SIZE][MAX_SIZE];
 
 int n;
 

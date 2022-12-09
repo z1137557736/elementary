@@ -114,11 +114,12 @@ void getNext2(string s, int next[]) {
         } else{
             j = next[j];
         }
-        for (int i = 0; i < s.length(); i++) {
-            printf("%d\t", next[i]);
-        }
-        printf("\n");
+
     }
+    for (int i = 0; i < s.length(); i++) {
+        printf("%d\t", next[i]);
+    }
+    printf("\n");
 
 }
 
@@ -140,7 +141,7 @@ bool KMP2(string text, string pattern) {
 }
 
 int main() {
-    printf("%d\n", KMP("abababa", "abcabd"));
+    printf("%d\n", KMP("aaaabab", "aaab"));
     printf("%d\n", KMP2("abababa", "abcabd"));
     return 1;
 }

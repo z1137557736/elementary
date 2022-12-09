@@ -22,7 +22,7 @@ vector<Node> Adj[MAX_SIZE] = {};
 // 顶点数和边数
 int n, m;
 // 定义邻接矩阵
-int G[MAX_SIZE][MAX_SIZE];
+int D[MAX_SIZE][MAX_SIZE];
 // 记录源点到达各个顶点的最短路径长度
 int d[MAX_SIZE];
 // 标识顶点是否被访问

@@ -4,7 +4,7 @@
 
 struct ThreadNode {
     char data;
-    ThreadNode *left, *right;
+    ThreadNode *lchild, *rchild;
     int ltag;   // 0 左孩子 1 前驱
     int rtag;   // 0 右孩子 1 后继
 };
@@ -21,81 +21,64 @@ void createNode(ThreadNode *&node) {
         node = new ThreadNode;
         node -> data = c;
         node -> ltag = node -> rtag = 0;
-        createNode(node -> left);
-        createNode(node -> right);
+        createNode(node -> lchild);
+        createNode(node -> rchild);
     }
 }
 
 /**
  * 递归实现将二叉树中序线索化
- *
- * 1. 先进行中序遍历，从中序序列上的角度上的，定义pre结点用于记录: 刚刚被访问的结点, 并反复执行第2、3、4步
- * 2. 若 p -> left == null, 则 p -> left = pre; p -> ltag = 1
- * 3. 若 pre != null && pre -> right == null, 则 pre -> right = p; pre -> rtag = 1
- * 4. 用于记录刚刚所访问的结点 pre = p
  * @param p 指向当前访问结点
  * @param pre 重点，要从中序序列的角度来看，始终指向上一个被访问的指针对象
  */
 void inThreading(ThreadNode *&p, ThreadNode *&pre) {
     if (p != NULL) {
-        inThreading(p -> left, pre);
-        if (p -> left == NULL) {    // 若当前结点的左孩子为空
-            p -> left = pre;    // 将其左孩子指向前驱结点
-            p -> ltag = 1;      // 并标记左孩子标记为前驱结点
+        inThreading(p -> lchild, pre);
+        if (p -> lchild == NULL) {    // 当前结点的左子树为空，建立前驱线索
+            p -> lchild = pre;
+            p -> ltag = 1;
         }
-        if (pre != NULL && pre -> right == NULL) {  // 若pre的右孩子为空
-            pre -> right = p;   // 将pre的右孩子指向当前结点
-            pre -> rtag = 1;    // 将当前右孩子标记为后继结点
+        if (pre && pre -> rchild == NULL) {  // 前驱结点的右子树为空，建立后继线索
+            pre -> rchild = p;
+            pre -> rtag = 1;
         }
         pre = p;
-        inThreading(p -> right, pre);
+        inThreading(p -> rchild, pre);
     }
 }
 
-// 寻找中序序列的首结点
-ThreadNode* firstNode(ThreadNode *node) {
-    while (node -> ltag == 0) node = node -> left;
-    return node;
+ThreadNode* firstNode(ThreadNode *p) {   // 定位当前结点的最左下结点
+    while (p && p -> ltag == 0) p = p -> lchild;  // 当前结点的左子树存在，继续向左下遍历
+    return p;    // 返回最左下结点
 }
 
-//
-/**
- * 寻找后继结点
- * 1. 若p -> right == null, 则已到达链表的最后一个结点，返回null
- * 2. 若p -> rtag == 1, 直接返回 p -> right
- * 3. 若p -> rtag == 0, p的右孩子非其后继结点，并通过p的右孩子去寻找p的后继结点(在中序序列中，p的右孩子的最左孩子为p的后继结点)
- */
-// 如果为 node -> right 为线索值
-ThreadNode* findNext(ThreadNode *p) {
-    // 后继结点为空，直接返回（此时已到达尾结点）
-    if (p -> right == NULL) return p -> right;
-
-    if (p -> rtag == 1) return p -> right;
-    else return firstNode(p -> right);
+ThreadNode* findNext(ThreadNode *p) {   // 返回当前结点的后继结点
+    if (p -> rtag == 0) return firstNode(p -> rchild);  // 若当前结点存在右子树，其后继结点为其右子树的最左下结点
+    return p -> rchild;  // 若当前结点无右子树，返回后继线索
 }
 
 
-void inThreadOrder(ThreadNode *node) {
-    ThreadNode *next = firstNode(node);
-    while (next != NULL) {
-        printf("%c", next -> data);
-        next = findNext(next);
+void inThreadOrder(ThreadNode *p) {
+    p = firstNode(p);
+    while (p) {
+        printf("%c", p -> data);
+        p = findNext(p);
     }
 }
 
 void preOrder(ThreadNode *node) {
     if (node != NULL) {
         printf("%c", node -> data);
-        preOrder(node -> left);
-        preOrder(node -> right);
+        preOrder(node -> lchild);
+        preOrder(node -> rchild);
     }
 }
 
 void inOrder(ThreadNode *node) {
     if (node != NULL) {
-        inOrder(node -> left);
+        inOrder(node -> lchild);
         printf("%c", node -> data);
-        inOrder(node -> right);
+        inOrder(node -> rchild);
     }
 }
 

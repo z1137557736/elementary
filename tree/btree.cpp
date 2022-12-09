@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <iostream>
 #include <stack>
 #include <queue>
 
@@ -12,8 +12,8 @@ struct Node {
     Node *left, *right;
 };
 
-char pre[5] = {'A', 'B', 'D', 'E', 'C'};
-char in[5] = {'D', 'B', 'E', 'A', 'C'};
+char pre[6] = {'1', '2', '3', '4', '5', '6'};
+char in[6] = {'3', '2', '4', '1', '6', '5'};
 char post[5] = {'D', 'E', 'B', 'C', 'A'};
 
 // 基于中序与后序序列构建二叉树
@@ -47,11 +47,12 @@ Node* createInPost(int inL, int inR, int postL, int postR) {
  * 5. 遍历in的区间[inL, inR]，并寻找in[k] == pre[preL], 并取得k  // k可将中序序列分为两个区间; 左子树的区间[inL, k - 1], 右子树区间为[k + 1, inR]
  * 6. 以分治法的思想，去寻找当前根结点的左右孩子
  *    int numLeft = k - inL;    // 左子树结点的个数
- *    root -> left = create(preL + 1, pre + numLeft, inL, k - 1);
- *    root -> right = create(preL + numLeft + 1, preR, k + 1, inR);
+ *    root -> lchild = create(preL + 1, pre + numLeft, inL, k - 1);
+ *    root -> rchild = create(preL + numLeft + 1, preR, k + 1, inR);
  * 7. 最后返回 root根结点
  */
 Node* createPreIn(int preL, int preR, int inL, int inR) {
+    cout << "preL: " << preL << " preR: " << preR << " inL: " << inL << " inR: " << inR << endl;
     // 递归边界
     if (preL > preR) {
         return NULL;
@@ -96,9 +97,9 @@ void visit(Node *node) {
  *
  * 1. 定义栈来实现非递归先序遍历，并令p = node
  * 2. 若 p != null || !s.empty()，进行第三、四步的反复执行
- * 3. if (p != null) visit(p); s.push(p); p = p -> left;  // 先访问当前结点，再压左孩子入栈
+ * 3. if (p != null) visit(p); s.push(p); p = p -> lchild;  // 先访问当前结点，再压左孩子入栈
  * 4. else p = s.top(); s.pop();    // 出栈并访问
- *    p = p -> right; // 并将右孩子压入栈
+ *    p = p -> rchild; // 并将右孩子压入栈
  */
 void preOrder(Node *node) {
     stack<Node*> s;
@@ -137,11 +138,11 @@ void inOrder(Node *node) {
  * 非递归的后序遍历
  * 1. 定义栈s实现非递归的后序遍历，并定义p与pre指针，依次分别根结点与上一次访问结点
  * 2. 若 p != null || !s.empty(), 反复执行第3、4步
- * 3. if (p != null) s.push(p); p = p -> left;  // 反复寻找当前结点的最左结点
+ * 3. if (p != null) s.push(p); p = p -> lchild;  // 反复寻找当前结点的最左结点
  * 4. else
  *      p = s.top(); // 获取栈顶元素
- *      if (p -> right == null || p -> right == pre) visit(p); pre = p; s.pop(); p = NULL;  // 出队并记录该元素，并令p = null，以便进入下个结点
- *      else p = p -> right;
+ *      if (p -> rchild == null || p -> rchild == pre) visit(p); pre = p; s.pop(); p = NULL;  // 出队并记录该元素，并令p = null，以便进入下个结点
+ *      else p = p -> rchild;
  */
 void postOrder(Node *node) {
     stack<Node*> s;
@@ -388,9 +389,9 @@ void findAncestor(Node *root, int x) {
  * 2. 递归边界: 当前结点root == null 或 root == p 或 root == q
  * 3. 递归取左右子树, 并定义left指针指向左子树, right指针指向右子树
  * 4. (由于递归的性质，此时已取得左右子树)，将会出现三种情况
- *      case 1: 若left == null, 返回 right (则结点q、p的最近公共祖先则出现在右子树上)
- *      case 2: 若right == null, 返回 left
- *      case 3: left 与 right都不为空, 则返回 root
+ *      case 1: 若left == null, 返回 rchild (则结点q、p的最近公共祖先则出现在右子树上)
+ *      case 2: 若right == null, 返回 lchild
+ *      case 3: lchild 与 right都不为空, 则返回 root
  */
 Node* lowestCommonAncestor(Node *root, Node *p, Node *q) {
     if (root == nullptr || root == p || root == q) return root;
@@ -490,11 +491,15 @@ bool similarTree(Node *A, Node *B) {
 int main() {
     Node *node = NULL;
     // 手动创建二叉树
-    createNode(node);
+    // createNode(node);
 
     // 中序序列与后序序列构建二叉树
     // node = createInPost(0, 4, 0, 4);
 
+    node = createPreIn(0, 5, 0, 5);
+
+    cout << node;
+/*
     printf("是否为完全二叉树: %d\n", cbt(node));
 
     printf("二叉树中所有双分支结点的个数: %d\n", doubleNodeNum(node));
@@ -529,6 +534,6 @@ int main() {
     layerOrder(node);
 
     printf("\n");
-    printf("tree height: %d", treeHeight(node));
+    printf("tree height: %d", treeHeight(node));*/
     return 0;
 }

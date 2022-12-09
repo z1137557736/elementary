@@ -65,7 +65,7 @@ void quickSort(int arr[], int left, int right) {
 }
 
 /**
- * left right arr
+ * lchild rchild arr
  *  0     7    1 7 6 5 3 2 8 1
  *  1     6    1 7 6 5 3 2 8 7
  *  1     5    1 2 6 5 3 2 8 7

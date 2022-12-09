@@ -61,11 +61,11 @@ void R(Node *&root) {
 /**
  * 平衡二叉树有关的四种树型的插入
  * 若当前结点root的平衡因子为2, 则有以下两种树形
- * 记 int factor = getBalancedFactor(root -> left)
+ * 记 int factor = getBalancedFactor(root -> lchild)
  * 1. 当 factor == 1时, 则为LL树形, 右旋root结点
- * 2. 当 factor == -1时, 则为LR树形, 先左旋root -> left(可调整为LL树形)，再右旋root结点
+ * 2. 当 factor == -1时, 则为LR树形, 先左旋root -> lchild(可调整为LL树形)，再右旋root结点
  * 若root的平衡因子为-2, 则有以下两种树形
- * 记 int factor = getBalancedFactor(root -> right)
+ * 记 int factor = getBalancedFactor(root -> rchild)
  * 1. 当 factor == -1时, 则为RR树形，左旋root结点
  * 2. 当 factor == 1时, 则为RL树形, 先右旋root -> right结点(调整为RR树形), 再左旋root结点
  */
